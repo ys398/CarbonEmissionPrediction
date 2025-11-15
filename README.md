@@ -1,5 +1,20 @@
-本科期间瞎写的一个基于LSTM的碳排放预测。
-数据来源于1997-2021国家统计年鉴，缺失处用三次样条插值填补。对29个省份进行预测2022-2049的碳排放预测曲线。
-首先修改并添加了STIRPAT模型的回归方程的一些参数（并添加清洁能源占比），并用Pearson相关性分析确定了各个省份回归方程的系数。
-另外，加了ARIMA对辽宁省的碳排放预测，与LSTM的做对比。
-在最后的ln转e的term里有bug，加了一个误差term，实际上不应该加。
+## Carbon Emission Forecasting with LSTM (China, 1997–2049)
+Forecasting CO₂ emissions for 29 Chinese provinces from 2022 to 2049 using an extended STIRPAT model and LSTM. Code is written in MATLAB.
+
+## Overview
+- Data: CEADS provincial CO₂ emissions and National Bureau of Statistics data, 1997–2021.
+- Scope: 29 provinces with relatively complete time series.
+- Preprocessing: merge datasets, fill gaps with cubic spline interpolation, standardise variables where needed.
+
+## Methods
+- Build province-level log-linear STIRPAT regressions, adding drivers such as secondary industry output, fossil fuel consumption and clean energy share.
+- Use the cleaned series as inputs to LSTM models to generate long-term emission forecasts.
+- For Liaoning, fit an ARIMA model as a benchmark and compare its forecasts with the LSTM results.
+- Use the forecast paths to discuss possible carbon peak years by province.
+
+## Implementation
+- Contents: scripts for data loading/cleaning, correlation analysis, STIRPAT regression, LSTM training, ARIMA (Liaoning) and plotting.
+- Hyper-parameters were tuned by hand using RMSE on a small validation set; you can adjust them if you rerun the experiments.
+
+## Note
+In the original thesis code, the step that converts log-values back to the original scale includes an extra correction term as a quick workaround. It is kept here for reproducibility and can be refined later.
